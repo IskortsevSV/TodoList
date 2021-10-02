@@ -1,15 +1,15 @@
 package org.example.services.inrerfaces;
 
 import org.example.domain.User;
+import org.example.domain.plainObject.UserPojo;
+import java.util.List;
 
 public interface IUserService {
 
-    int createUser(User user);
-
-    User getUser(long id);
-
-    int updateUser(User user, long id);
-
-    int deleteUser(long id);
+    UserPojo createUser(User user);
+    UserPojo getUser(long id);
+    List<UserPojo> getAllUsers();
+    UserPojo updateUser(User user, long id);
+    UserPojo deleteUser(long id);
 
 }
