@@ -2,15 +2,15 @@ package org.example.services;
 
 import org.example.domain.User;
 import org.example.domain.plainObject.UserPojo;
+import org.example.repositories.UserRepository;
 import org.example.services.inrerfaces.IUserService;
 import org.example.utils.Converter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -20,13 +20,13 @@ import java.util.stream.Collectors;
 @Service
 public class UserService implements IUserService {
 
-    @PersistenceContext
-    EntityManager entityManager;
+    private final UserRepository userRepository;
 
     private final Converter converter;
 
     @Autowired
-    public UserService(Converter converter) {
+    public UserService(UserRepository userRepository, Converter converter) {
+        this.userRepository = userRepository;
         this.converter = converter;
     }
 
@@ -34,7 +34,7 @@ public class UserService implements IUserService {
     @Transactional
     public UserPojo createUser(User user) {
 
-        entityManager.persist(user);
+        userRepository.save(user);
 
         return converter.userToPojo(user);
     }
@@ -43,32 +43,47 @@ public class UserService implements IUserService {
     @Transactional(readOnly = true)
     public UserPojo getUser(long id) {
 
-        User foundUser = entityManager
-                .createQuery("SELECT user FROM User user WHERE user.id = :id", User.class)
-                .setParameter("id", id)
-                .getSingleResult();
+        Optional<User> foundUser = userRepository.findById(id);
 
-        return converter.userToPojo(foundUser);
+        if (foundUser.isPresent()) {
+            return converter.userToPojo(foundUser.get());
+        } else {
+            return converter.userToPojo(new User());
+        }
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<UserPojo> getAllUsers() {
-        List<User> listOfUsers= entityManager.createQuery("SELECT user FROM User user", User.class).getResultList();
-
-        List<UserPojo> result = listOfUsers.stream().map(converter::userToPojo).collect(Collectors.toList());
-        return result;
+        List<User> listOfUsers = userRepository.findAll();
+        return listOfUsers.stream().map(converter::userToPojo).collect(Collectors.toList());
     }
 
     @Override
-    public UserPojo updateUser(User updatedUser, long id) {
+    @Transactional
+    public UserPojo updateUser(User source, long id) {
+        Optional<User> userOptional = userRepository.findById(id);
 
-        return null;
+        if (userOptional.isPresent()) {
+            User target = userOptional.get();
+            target.setUsername(source.getUsername());
+            target.setPassword(source.getPassword());
+            userRepository.save(target);
+            return converter.userToPojo(target);
+        } else
+            return converter.userToPojo(new User());
     }
 
     @Override
-    public UserPojo deleteUser(long id) {
+    @Transactional
+    public String deleteUser(long id) {
 
-        return null;
+        Optional<User> userOptional = userRepository.findById(id);
+
+        if (userOptional.isPresent()) {
+            userRepository.delete(userOptional.get());
+            return "User with id: " + id + " was successfully remover";
+        } else
+            return "User with id: " + id + " doesn't exist";
     }
 }
