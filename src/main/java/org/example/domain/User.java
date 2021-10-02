@@ -12,7 +12,7 @@ import java.util.Set;
 @Getter
 @Setter
 @EqualsAndHashCode(of = {"id","username","password"})
-@ToString(of = {"username","password","toDoSet"})
+@ToString(of = {"username","password","todoSet"})
 @NoArgsConstructor
 @Entity
 @Table(name = "_USER")
