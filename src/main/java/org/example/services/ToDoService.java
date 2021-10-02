@@ -4,6 +4,7 @@ import org.example.domain.Tag;
 import org.example.domain.Todo;
 import org.example.domain.User;
 import org.example.domain.plainObject.TodoPojo;
+import org.example.exceptions.CustomEmptyDataException;
 import org.example.repositories.TodoRepository;
 import org.example.repositories.UserRepository;
 import org.example.services.inrerfaces.ITagService;
@@ -61,7 +62,7 @@ public class ToDoService implements IToDoService {
 
             return converter.todoToPojo(todo);
         } else
-            return converter.todoToPojo(new Todo());
+            throw new NoSuchElementException("unable to get user for todo");
     }
 
     @Override
@@ -73,7 +74,7 @@ public class ToDoService implements IToDoService {
         if (byId.isPresent()) {
             return converter.todoToPojo(byId.get());
         } else
-            return converter.todoToPojo(new Todo());
+            throw new NoSuchElementException("unable to get todo");
 
     }
 
@@ -82,12 +83,11 @@ public class ToDoService implements IToDoService {
     public List<TodoPojo> getAllTodos(Long userId) {
 
         Optional<User> userOptional = userRepository.findById(userId);
-
-        return userOptional.map(user -> todoRepository.findAllByUser(user)
-                .stream()
-                .map(converter::todoToPojo)
-                .collect(Collectors.toList()))
-                .orElseGet(ArrayList::new);
+        if (userOptional.isPresent()) {
+            return todoRepository.findAllByUser(userOptional.get()).stream().map(todo -> converter.todoToPojo(todo)).collect(Collectors.toList());
+        } else {
+            throw new NoSuchElementException("No user with id :" + userId +  " was found");
+        }
     }
 
     @Override
@@ -110,7 +110,7 @@ public class ToDoService implements IToDoService {
 
             return converter.todoToPojo(target);
         } else {
-            return converter.todoToPojo(new Todo());
+            throw new NoSuchElementException("unable to update todo");
         }
     }
 
@@ -127,7 +127,7 @@ public class ToDoService implements IToDoService {
             todoRepository.delete(todoForDelete);
             return "Todo with id:" + id + " was successfully removed";
         } else
-            return "Todo with id:" + id + " was not found";
+            throw new NoSuchElementException("unable to delete todo");
 
     }
 }

@@ -2,6 +2,7 @@ package org.example.services;
 
 import org.example.domain.User;
 import org.example.domain.plainObject.UserPojo;
+import org.example.exceptions.CustomEmptyDataException;
 import org.example.repositories.UserRepository;
 import org.example.services.inrerfaces.IUserService;
 import org.example.utils.Converter;
@@ -48,7 +49,7 @@ public class UserService implements IUserService {
         if (foundUser.isPresent()) {
             return converter.userToPojo(foundUser.get());
         } else {
-            return converter.userToPojo(new User());
+            throw new CustomEmptyDataException("unable to get user");
         }
     }
 
@@ -71,7 +72,7 @@ public class UserService implements IUserService {
             userRepository.save(target);
             return converter.userToPojo(target);
         } else
-            return converter.userToPojo(new User());
+             throw new CustomEmptyDataException("unable to update user");
     }
 
     @Override
@@ -84,6 +85,6 @@ public class UserService implements IUserService {
             userRepository.delete(userOptional.get());
             return "User with id: " + id + " was successfully remover";
         } else
-            return "User with id: " + id + " doesn't exist";
+            throw new CustomEmptyDataException("unable to delete user");
     }
 }
