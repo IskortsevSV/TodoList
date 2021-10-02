@@ -9,6 +9,6 @@ public interface IToDoService {
     TodoPojo createTodo(Todo todo, Long userId);
     TodoPojo getTodo(long id);
     TodoPojo updateTodo(Todo updateTodo, long userId);
-    TodoPojo deleteTodo(long id);
+    String deleteTodo(long id);
     List<TodoPojo> getAllTodos(Long userId);
 }

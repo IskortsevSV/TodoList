@@ -10,6 +10,6 @@ public interface IUserService {
     UserPojo getUser(long id);
     List<UserPojo> getAllUsers();
     UserPojo updateUser(User user, long id);
-    UserPojo deleteUser(long id);
+    String deleteUser(long id);
 
 }
