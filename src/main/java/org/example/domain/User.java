@@ -1,6 +1,6 @@
 package org.example.domain;
 
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -9,7 +9,11 @@ import java.util.Set;
 /**
  * by Iskortsev S.V.
  */
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(of = {"username","password"})
+@ToString(of = {"username","password","toDoSet"})
+@NoArgsConstructor
 @Entity
 @Table(name = "_USER")
 public class User {
@@ -28,12 +32,10 @@ public class User {
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<ToDo> toDoSet = new HashSet<>();
 
-    public User() {
-    }
-
     public Set<ToDo> getToDoSet() {
         return toDoSet;
     }
+
 
     //перегруженный метод
     public void addTodo(ToDo todo) {

@@ -1,5 +1,7 @@
 package org.example.domain;
 
+import lombok.*;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -8,6 +10,11 @@ import java.util.Set;
  * by Iskortsev S.V.
  */
 
+@Getter
+@Setter
+@EqualsAndHashCode(of = {"name"})
+@ToString(of = {"name","todoList"})
+@NoArgsConstructor
 @Entity
 @Table(name = "TAG")
 public class Tag {
@@ -21,7 +28,7 @@ public class Tag {
     private String name;
 
     @ManyToMany(mappedBy = "tagList")
-    private Set<ToDo> todoList = new HashSet<>();
+    private final Set<ToDo> todoList = new HashSet<>();
 
     public Set<ToDo> getTodoList() {
         return todoList;

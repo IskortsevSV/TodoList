@@ -1,6 +1,6 @@
 package org.example.domain;
 
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -11,7 +11,11 @@ import java.util.Set;
  * by Iskortsev S.V.
  */
 
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(of = {"comment","name","startDate"})
+@ToString(of = {"comment","name","startDate","endDate","important","priority"})
+@NoArgsConstructor
 @Entity
 @Table(name = "Todo")
 public class ToDo {
@@ -20,6 +24,9 @@ public class ToDo {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID")
     private Long id;
+
+    @Column(name = "NAME", nullable = false)
+    private String name;
 
     @Column(name = "COMMENT")
     private String comment;
