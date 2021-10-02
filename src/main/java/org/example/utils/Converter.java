@@ -1,12 +1,12 @@
 package org.example.utils;
 
 import org.example.domain.Tag;
-import org.example.domain.ToDo;
+import org.example.domain.Todo;
 import org.example.domain.User;
 import org.example.domain.plainObject.TagPojo;
 import org.springframework.stereotype.Component;
 import org.example.domain.plainObject.UserPojo;
-import org.example.domain.plainObject.ToDoPojo;
+import org.example.domain.plainObject.TodoPojo;
 
 import java.util.stream.Collectors;
 
@@ -24,14 +24,14 @@ public class Converter {
         result.setUsername(source.getUsername());
         result.setPassword(source.getPassword());
 
-        result.setTodoList(source.getToDoSet().stream().map(this::todoToPojo).collect(Collectors.toSet()));
+        result.setTodoList(source.getTodoSet().stream().map(this::todoToPojo).collect(Collectors.toSet()));
 
         return result;
     }
 
-    public ToDoPojo todoToPojo(ToDo source) {
+    public TodoPojo todoToPojo(Todo source) {
 
-        ToDoPojo result = new ToDoPojo();
+        TodoPojo result = new TodoPojo();
 
         result.setId(source.getId());
         result.setName(source.getName());
@@ -52,7 +52,7 @@ public class Converter {
 
         result.setId(source.getId());
         result.setName(source.getName());
-        result.setTodoListIds(source.getTodoList().stream().map(ToDo::getId).collect(Collectors.toSet()));
+        result.setTodoListIds(source.getTodoList().stream().map(Todo::getId).collect(Collectors.toSet()));
 
         return result;
     }

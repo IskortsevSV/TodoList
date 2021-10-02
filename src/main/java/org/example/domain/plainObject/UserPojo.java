@@ -16,6 +16,6 @@ public class UserPojo {
     private Long id;
     private String username;
     private String password;
-    private Set<ToDoPojo> todoList = new HashSet<>();
+    private Set<TodoPojo> todoList = new HashSet<>();
 
 }

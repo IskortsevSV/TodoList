@@ -11,7 +11,7 @@ import java.util.Set;
  */
 @Getter
 @Setter
-@EqualsAndHashCode(of = {"username","password"})
+@EqualsAndHashCode(of = {"id","username","password"})
 @ToString(of = {"username","password","toDoSet"})
 @NoArgsConstructor
 @Entity
@@ -30,35 +30,35 @@ public class User {
     private String password;
 
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<ToDo> toDoSet = new HashSet<>();
+    private Set<Todo> todoSet = new HashSet<>();
 
-    public Set<ToDo> getToDoSet() {
-        return toDoSet;
+    public Set<Todo> getTodoSet() {
+        return todoSet;
     }
 
 
     //перегруженный метод
-    public void addTodo(ToDo todo) {
+    public void addTodo(Todo todo) {
         addTodo(todo,false);
     }
 
     // добавили задачу нашему пользователю , добавляем булево значение чтобы убрать рекурсию
-    public void addTodo(ToDo toDo, boolean otherSideHasBeenSet) {
-        this.getToDoSet().add(toDo);
+    public void addTodo(Todo toDo, boolean otherSideHasBeenSet) {
+        this.getTodoSet().add(toDo);
         if(otherSideHasBeenSet){
             return;
         }
-        toDo.setUser(this);
+        toDo.setUser(this,true);
     }
 
     //перегруженный метод
-    public void removeTodo(ToDo todo) {
+    public void removeTodo(Todo todo) {
         removeTodo(todo,false);
     }
 
     // добавили задачу нашему пользователю , добавляем булево значение чтобы убрать рекурсию
-    public void removeTodo(ToDo todo, boolean otherSideHasBeenSet) {
-        this.getToDoSet().remove(todo);
+    public void removeTodo(Todo todo, boolean otherSideHasBeenSet) {
+        this.getTodoSet().remove(todo);
         if(otherSideHasBeenSet) {
             return;
         }

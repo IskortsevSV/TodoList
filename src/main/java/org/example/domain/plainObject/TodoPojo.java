@@ -14,7 +14,7 @@ import java.util.Set;
 
 @Getter
 @Setter
-public class ToDoPojo {
+public class TodoPojo {
 
     private Long id;
     private String name;

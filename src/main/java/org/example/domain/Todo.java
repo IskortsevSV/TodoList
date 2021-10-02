@@ -13,12 +13,12 @@ import java.util.Set;
 
 @Getter
 @Setter
-@EqualsAndHashCode(of = {"comment","name","startDate"})
+@EqualsAndHashCode(of = {"id","comment","name","startDate"})
 @ToString(of = {"comment","name","startDate","endDate","important","priority"})
 @NoArgsConstructor
 @Entity
 @Table(name = "Todo")
-public class ToDo {
+public class Todo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

@@ -12,7 +12,7 @@ import java.util.Set;
 
 @Getter
 @Setter
-@EqualsAndHashCode(of = {"name"})
+@EqualsAndHashCode(of = {"id","name"})
 @ToString(of = {"name","todoList"})
 @NoArgsConstructor
 @Entity
@@ -28,17 +28,17 @@ public class Tag {
     private String name;
 
     @ManyToMany(mappedBy = "tagList")
-    private final Set<ToDo> todoList = new HashSet<>();
+    private final Set<Todo> todoList = new HashSet<>();
 
-    public Set<ToDo> getTodoList() {
+    public Set<Todo> getTodoList() {
         return todoList;
     }
 
-    public void addTodo(ToDo todo) {
+    public void addTodo(Todo todo) {
         addTodo(todo, false);
     }
 
-    public void addTodo(ToDo todo, boolean otherSideHasBeenSet) {
+    public void addTodo(Todo todo, boolean otherSideHasBeenSet) {
         this.getTodoList().add(todo);
         if(otherSideHasBeenSet) {
             return;
@@ -46,11 +46,11 @@ public class Tag {
         todo.addTag(this, true);
     }
 
-    public void removeTodo(ToDo todo) {
+    public void removeTodo(Todo todo) {
         removeTodo(todo, false);
     }
 
-    public void removeTodo(ToDo todo, boolean otherSideHasBeenSet) {
+    public void removeTodo(Todo todo, boolean otherSideHasBeenSet) {
         this.getTodoList().remove(todo);
         if(otherSideHasBeenSet) {
             return;
