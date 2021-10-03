@@ -21,7 +21,7 @@
 
     <bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
         <property name="driverClass" value="org.h2.Driver"/>
-        <property name="url" value="jdbc:h2:~/TodoListDB"/>  <!--C:/Drivers/H2/TodoListDB-->
+        <property name="url" value="jdbc:h2:~/TodoListDBTest"/>  <!--C:/Drivers/H2/TodoListDB-->
         <property name="username" value="sa"/>
         <property name="password" value=""/>
     </bean>
@@ -55,7 +55,6 @@
     <jpa:repositories base-package="org.example.repositories"
                       entity-manager-factory-ref="entityManagerFactory"
                       transaction-manager-ref="transactionManager"/>
-
 
 
 </beans>
