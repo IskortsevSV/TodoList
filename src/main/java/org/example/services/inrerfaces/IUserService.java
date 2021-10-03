@@ -12,4 +12,5 @@ public interface IUserService {
     UserPojo updateUser(User user, long id);
     String deleteUser(long id);
 
+    UserPojo findUserByUsernameAndPassword(String username, String password);
 }

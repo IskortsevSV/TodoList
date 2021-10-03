@@ -87,4 +87,11 @@ public class UserService implements IUserService {
         } else
             throw new CustomEmptyDataException("unable to delete user");
     }
+
+    @Override
+    @Transactional
+    public UserPojo findUserByUsernameAndPassword(String username, String password) {
+        Optional<User> userOptional = userRepository.findByUsernameAndPassword(username, password);
+        return userOptional.map(converter::userToPojo).orElse(null);
+    }
 }
