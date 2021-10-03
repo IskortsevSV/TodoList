@@ -4,7 +4,6 @@ import org.example.domain.Tag;
 import org.example.domain.Todo;
 import org.example.domain.User;
 import org.example.domain.plainObject.TodoPojo;
-import org.example.exceptions.CustomEmptyDataException;
 import org.example.repositories.TodoRepository;
 import org.example.repositories.UserRepository;
 import org.example.services.inrerfaces.ITagService;
@@ -67,7 +66,7 @@ public class ToDoService implements IToDoService {
 
     @Override
     @Transactional
-    public TodoPojo getTodo(long id) {
+    public TodoPojo getTodo(Long id, Long userId) {
 
         Optional<Todo> byId = todoRepository.findById(id);
 
@@ -92,7 +91,7 @@ public class ToDoService implements IToDoService {
 
     @Override
     @Transactional
-    public TodoPojo updateTodo(Todo source, long todoId) {
+    public TodoPojo updateTodo(Todo source, Long todoId, Long userId) {
 
         Optional<Todo> targetOptional = todoRepository.findById(todoId);
 
@@ -116,7 +115,7 @@ public class ToDoService implements IToDoService {
 
     @Override
     @Transactional
-    public String deleteTodo(long id) {
+    public String deleteTodo(Long id, Long userId) {
 
         Optional<Todo> todoForDeleteOptional = todoRepository.findById(id);
 

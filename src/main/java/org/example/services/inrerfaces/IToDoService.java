@@ -7,8 +7,8 @@ import java.util.List;
 
 public interface IToDoService {
     TodoPojo createTodo(Todo todo, Long userId);
-    TodoPojo getTodo(long id);
-    TodoPojo updateTodo(Todo updateTodo, long userId);
-    String deleteTodo(long id);
+    TodoPojo getTodo(Long id, Long userId);
+    TodoPojo updateTodo(Todo updatedTodo, Long todoId, Long userId);
+    String deleteTodo(Long id, Long userId);
     List<TodoPojo> getAllTodos(Long userId);
 }
